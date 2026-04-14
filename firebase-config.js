@@ -22,7 +22,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // ── Admin PIN (change this!) ──
-const ADMIN_PIN = "1234";
+const ADMIN_PIN = "2104";
 
 // ── Step IDs ──
 const STEPS = ['step1', 'step2', 'step3', 'step4', 'final'];

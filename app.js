@@ -3,7 +3,7 @@
    Uses base64 in Firestore (no Storage needed)
    ============================================ */
 
-var StepApp = (function() {
+var StepApp = (function () {
 
   var currentStep = null;
   var currentStepNumber = 0;
@@ -73,14 +73,14 @@ var StepApp = (function() {
     document.body.appendChild(card);
 
     // Show the toggle button with delay
-    setTimeout(function() {
+    setTimeout(function () {
       btn.classList.add('visible');
     }, 2000);
 
     // Toggle handler
-    btn.addEventListener('click', function() { toggleHint(); });
-    backdrop.addEventListener('click', function() { closeHint(); });
-    card.querySelector('.hint-close').addEventListener('click', function() { closeHint(); });
+    btn.addEventListener('click', function () { toggleHint(); });
+    backdrop.addEventListener('click', function () { closeHint(); });
+    card.querySelector('.hint-close').addEventListener('click', function () { closeHint(); });
   }
 
   function toggleHint() {
@@ -115,14 +115,14 @@ var StepApp = (function() {
 
   // ── Connect to Firebase (async, delayed) ──
   function initFirebase(stepId) {
-    var timeoutId = setTimeout(function() {
+    var timeoutId = setTimeout(function () {
       // If Firebase hasn't responded in 5s, show UI anyway
       showMessageState();
       showToast('Slow connection \u2014 showing preview');
     }, 5000);
 
     db.collection('steps').doc(stepId).get()
-      .then(function(doc) {
+      .then(function (doc) {
         clearTimeout(timeoutId);
         if (!doc.exists) {
           showToast('Hunt not initialized. Ask admin to set it up.');
@@ -131,7 +131,7 @@ var StepApp = (function() {
         }
         handleState(doc.data().status, doc.data());
       })
-      .catch(function(err) {
+      .catch(function (err) {
         clearTimeout(timeoutId);
         console.error('Firebase error:', err);
         showMessageState();
@@ -143,8 +143,8 @@ var StepApp = (function() {
   function init(stepId) {
     initUI(stepId);
     // Let GSAP render one frame before doing async work
-    requestAnimationFrame(function() {
-      setTimeout(function() { initFirebase(stepId); }, 100);
+    requestAnimationFrame(function () {
+      setTimeout(function () { initFirebase(stepId); }, 100);
     });
   }
 
@@ -163,11 +163,11 @@ var StepApp = (function() {
 
   function showMessageState() {
     Animations.showSection('message-section', {
-      onComplete: function() {
+      onComplete: function () {
         Animations.animateStepLabel('.step-label');
         Animations.animateTextReveal('.message-line', {
           delay: 0.3,
-          onComplete: function() {
+          onComplete: function () {
             var btn = document.getElementById('im-here-btn');
             if (btn) {
               gsap.fromTo(btn,
@@ -183,19 +183,19 @@ var StepApp = (function() {
 
   function showUploadState() {
     Animations.showSection('upload-section', {
-      onComplete: function() {
+      onComplete: function () {
         var uploadZone = document.getElementById('upload-zone');
         var fileInput = document.getElementById('file-input');
         var submitBtn = document.getElementById('submit-btn');
         var preview = document.getElementById('upload-preview');
 
-        uploadZone.addEventListener('click', function() { fileInput.click(); });
+        uploadZone.addEventListener('click', function () { fileInput.click(); });
 
-        fileInput.addEventListener('change', function(e) {
+        fileInput.addEventListener('change', function (e) {
           var file = e.target.files[0];
           if (!file) return;
           var reader = new FileReader();
-          reader.onload = function(ev) {
+          reader.onload = function (ev) {
             preview.src = ev.target.result;
             uploadZone.classList.add('has-preview');
             gsap.fromTo(submitBtn,
@@ -206,7 +206,7 @@ var StepApp = (function() {
           reader.readAsDataURL(file);
         });
 
-        submitBtn.addEventListener('click', function() { submitSelfie(); });
+        submitBtn.addEventListener('click', function () { submitSelfie(); });
       }
     });
   }
@@ -221,16 +221,16 @@ var StepApp = (function() {
     submitBtn.disabled = true;
     submitBtn.textContent = 'uploading\u2026';
 
-    compressImageToBase64(file, 600).then(function(base64) {
+    compressImageToBase64(file, 600).then(function (base64) {
       return db.collection('steps').doc(currentStep).update({
         status: 'uploaded',
         imageData: base64,
         uploadedAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-    }).then(function() {
+    }).then(function () {
       showWaitingState();
       listenForApproval();
-    }).catch(function(err) {
+    }).catch(function (err) {
       console.error('Upload error:', err);
       submitBtn.disabled = false;
       submitBtn.textContent = 'send it \u{1F4F7}';
@@ -242,7 +242,7 @@ var StepApp = (function() {
     var content = stepContent[currentStep];
     Animations.showSection('waiting-section', {
       delay: 0.2,
-      onComplete: function() {
+      onComplete: function () {
         var waitText = document.querySelector('.waiting-text');
         if (waitText) waitText.textContent = content.waitingText;
         var doodleContainer = document.querySelector('.doodle-container');
@@ -258,11 +258,11 @@ var StepApp = (function() {
   function listenForApproval() {
     if (unsubscribe) unsubscribe();
     unsubscribe = db.collection('steps').doc(currentStep)
-      .onSnapshot(function(doc) {
+      .onSnapshot(function (doc) {
         var data = doc.data();
         if (data && data.status === 'approved') {
           if (unsubscribe) unsubscribe();
-          setTimeout(function() { showClueState(); }, 800);
+          setTimeout(function () { showClueState(); }, 800);
         }
       });
   }
@@ -271,7 +271,7 @@ var StepApp = (function() {
     var content = stepContent[currentStep];
     Animations.showSection('clue-section', {
       delay: 0.2,
-      onComplete: function() {
+      onComplete: function () {
         var clueText = document.querySelector('.clue-text');
         if (clueText) clueText.textContent = content.clue;
         var successText = document.querySelector('.success-text');
@@ -284,7 +284,7 @@ var StepApp = (function() {
         Animations.animateClueReveal(clueCard, { delay: 0.5 });
         var continueBtn = document.getElementById('continue-btn');
         if (continueBtn) {
-          continueBtn.addEventListener('click', function(e) {
+          continueBtn.addEventListener('click', function (e) {
             e.preventDefault();
             Animations.pageExit(content.nextPage);
           });
@@ -303,7 +303,7 @@ var StepApp = (function() {
     if (section) {
       section.classList.remove('hidden');
       gsap.fromTo(section, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' });
-      setTimeout(function() { Animations.pageExit(content.nextPage); }, 1500);
+      setTimeout(function () { Animations.pageExit(content.nextPage); }, 1500);
     }
   }
 
@@ -313,9 +313,9 @@ var StepApp = (function() {
 })();
 
 // Bind button
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   var btn = document.getElementById('im-here-btn');
   if (btn) {
-    btn.addEventListener('click', function() { StepApp.onImHereClick(); });
+    btn.addEventListener('click', function () { StepApp.onImHereClick(); });
   }
 });
