@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="You made it">
+  <meta name="theme-color" content="#f5efe6">
+  <title>&#10024;</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-overlay"></div>
+  <canvas class="confetti-canvas" id="confetti-canvas"></canvas>
+  <div class="floating-container" id="floating-container">
+    <div class="floating-blob blob-1"></div>
+    <div class="floating-blob blob-2"></div>
+    <div class="floating-blob blob-3"></div>
+  </div>
+  <div class="final-glow"></div>
+  <div class="final-container">
+    <div class="step-container">
+      <div class="step-indicator">
+        <span class="step-dot completed"></span>
+        <span class="step-dot completed"></span>
+        <span class="step-dot completed"></span>
+        <span class="step-dot completed"></span>
+      </div>
+      <div class="final-message" id="final-message">
+        <p class="final-line">you actually did it</p>
+        <p class="final-line accent">every single one</p>
+        <p class="final-line" style="margin-top:16px;">now come find me &#x1F338;</p>
+      </div>
+      <div class="doodle-container" id="final-doodle" style="opacity:0;margin-top:20px;"></div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="animations.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      Animations.pageEnter();
+      Animations.initDecorations();
+      Animations.initConfetti(document.getElementById('confetti-canvas'));
+
+      var lines = document.querySelectorAll('.final-line');
+      var tl = gsap.timeline({ delay: 0.8 });
+      for (var i = 0; i < lines.length; i++) {
+        tl.to(lines[i], { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, i === 0 ? 0 : '+=0.4');
+      }
+
+      var doodle = document.getElementById('final-doodle');
+      if (doodle) {
+        doodle.innerHTML = Animations.getBunnyDoodle();
+        tl.to(doodle, { opacity: 0.4, duration: 0.8, ease: 'power2.out' }, '+=0.3');
+      }
+
+      var glow = document.querySelector('.final-glow');
+      if (glow) {
+        gsap.to(glow, { scale: 1.2, opacity: 0.7, duration: 3, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+      }
+
+      // Mark final
+      try {
+        db.collection('steps').doc('final').get().then(function(doc) {
+          if (doc.exists && doc.data().status !== 'approved') {
+            db.collection('steps').doc('final').update({
+              status: 'approved',
+              approvedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          }
+        });
+      } catch(e) {}
+    });
+  </script>
+</body>
+</html>

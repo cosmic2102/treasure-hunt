@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Admin Dashboard">
+  <meta name="theme-color" content="#f5efe6">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin &#8212; Treasure Hunt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-overlay"></div>
+
+  <div class="pin-overlay" id="pin-overlay">
+    <div class="pin-card">
+      <h2>admin access</h2>
+      <p>enter PIN to continue</p>
+      <input type="password" class="pin-input" id="pin-input" placeholder="&#8226; &#8226; &#8226; &#8226;" maxlength="10" autocomplete="off" inputmode="numeric">
+      <p class="pin-error" id="pin-error">wrong PIN &#8212; try again</p>
+      <button class="btn-primary btn-small" id="pin-submit">enter</button>
+    </div>
+  </div>
+
+  <div class="admin-wrapper">
+    <header class="admin-header">
+      <h1>&#x1F3AF; treasure hunt control</h1>
+      <p>real-time dashboard</p>
+    </header>
+
+    <div class="admin-grid">
+      <div class="admin-card" id="card-step1">
+        <div class="card-header">
+          <span class="step-name">Step 1</span>
+          <span class="status-badge locked">&#x1F512; Locked</span>
+        </div>
+        <div class="selfie-preview"><span class="empty-state">no photo yet</span></div>
+        <p class="timestamp"></p>
+        <div class="card-actions">
+          <button class="btn-approve" disabled onclick="AdminApp.approveStep('step1')">Approve &amp; Unlock Next</button>
+          <button class="btn-reject" disabled onclick="AdminApp.rejectStep('step1')">Reject</button>
+        </div>
+      </div>
+
+      <div class="admin-card" id="card-step2">
+        <div class="card-header">
+          <span class="step-name">Step 2</span>
+          <span class="status-badge locked">&#x1F512; Locked</span>
+        </div>
+        <div class="selfie-preview"><span class="empty-state">no photo yet</span></div>
+        <p class="timestamp"></p>
+        <div class="card-actions">
+          <button class="btn-approve" disabled onclick="AdminApp.approveStep('step2')">Approve &amp; Unlock Next</button>
+          <button class="btn-reject" disabled onclick="AdminApp.rejectStep('step2')">Reject</button>
+        </div>
+      </div>
+
+      <div class="admin-card" id="card-step3">
+        <div class="card-header">
+          <span class="step-name">Step 3</span>
+          <span class="status-badge locked">&#x1F512; Locked</span>
+        </div>
+        <div class="selfie-preview"><span class="empty-state">no photo yet</span></div>
+        <p class="timestamp"></p>
+        <div class="card-actions">
+          <button class="btn-approve" disabled onclick="AdminApp.approveStep('step3')">Approve &amp; Unlock Next</button>
+          <button class="btn-reject" disabled onclick="AdminApp.rejectStep('step3')">Reject</button>
+        </div>
+      </div>
+
+      <div class="admin-card" id="card-step4">
+        <div class="card-header">
+          <span class="step-name">Step 4</span>
+          <span class="status-badge locked">&#x1F512; Locked</span>
+        </div>
+        <div class="selfie-preview"><span class="empty-state">no photo yet</span></div>
+        <p class="timestamp"></p>
+        <div class="card-actions">
+          <button class="btn-approve" disabled onclick="AdminApp.approveStep('step4')">Approve &amp; Unlock Next</button>
+          <button class="btn-reject" disabled onclick="AdminApp.rejectStep('step4')">Reject</button>
+        </div>
+      </div>
+
+      <div class="admin-card" id="card-final" style="grid-column:1/-1;">
+        <div class="card-header">
+          <span class="step-name">&#x1F338; Final</span>
+          <span class="status-badge locked">&#x1F512; Locked</span>
+        </div>
+        <div class="selfie-preview"><span class="empty-state">no photo yet</span></div>
+        <p class="timestamp"></p>
+        <div class="card-actions">
+          <button class="btn-approve" disabled onclick="AdminApp.approveStep('final')">Approve &#x1F389;</button>
+          <button class="btn-reject" disabled onclick="AdminApp.rejectStep('final')">Reject</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-footer">
+      <button class="btn-primary btn-small" onclick="AdminApp.initHunt()" id="init-btn">Initialize Hunt &#x1F3AF;</button>
+      <button class="btn-primary btn-secondary btn-small" onclick="AdminApp.resetAll()" id="reset-btn">Reset All &#x1F504;</button>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="animations.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
