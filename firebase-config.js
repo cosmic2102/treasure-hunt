@@ -8,12 +8,6 @@
    See FIREBASE_SETUP.md for instructions.
    ============================================ */
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDkjo_fOT9v1W1GN57GaHNyJPw4eOCCy2E",
   authDomain: "tresure-hunt-bday.firebaseapp.com",
