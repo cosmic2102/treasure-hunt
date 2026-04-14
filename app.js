@@ -11,30 +11,97 @@ var StepApp = (function() {
 
   var stepContent = {
     step1: {
+      hintClue: '\u{1F4CD} [Your initial clue — where to go for Step 1]',
       waitingText: 'hmm let me verify this \u{1F60C}',
       clue: '\u270F\uFE0F [Your clue for Step 2 goes here]',
       successText: 'not bad\u2026 okay here\u2019s your next hint',
       nextPage: 'step2.html'
     },
     step2: {
+      hintClue: '\u{1F4CD} [Your clue for Step 2 goes here]',
       waitingText: 'okay wait\u2026 checking \u{1F60C}',
       clue: '\u270F\uFE0F [Your clue for Step 3 goes here]',
       successText: 'okay I see the effort',
       nextPage: 'step3.html'
     },
     step3: {
+      hintClue: '\u{1F4CD} [Your clue for Step 3 goes here]',
       waitingText: 'one sec\u2026 verifying \u{1F914}',
       clue: '\u270F\uFE0F [Your clue for Step 4 goes here]',
       successText: 'you\u2019re getting closer\u2026',
       nextPage: 'step4.html'
     },
     step4: {
+      hintClue: '\u{1F4CD} [Your clue for Step 4 goes here]',
       waitingText: 'almost done checking\u2026',
       clue: '\u270F\uFE0F [Your clue for the Final location goes here]',
       successText: 'okay wow\u2026 you actually did it all',
       nextPage: 'final.html'
     }
   };
+
+  // ── Hint Toggle System ──
+  var hintOpen = false;
+
+  function createHintToggle() {
+    var content = stepContent[currentStep];
+    if (!content || !content.hintClue) return;
+
+    // Create toggle button
+    var btn = document.createElement('button');
+    btn.className = 'hint-toggle';
+    btn.id = 'hint-toggle';
+    btn.innerHTML = '\u{1F4CD}';
+    btn.setAttribute('aria-label', 'Show hint');
+    document.body.appendChild(btn);
+
+    // Create backdrop
+    var backdrop = document.createElement('div');
+    backdrop.className = 'hint-backdrop';
+    backdrop.id = 'hint-backdrop';
+    document.body.appendChild(backdrop);
+
+    // Create hint card
+    var card = document.createElement('div');
+    card.className = 'hint-card';
+    card.id = 'hint-card';
+    card.innerHTML =
+      '<div class="hint-handle"></div>' +
+      '<p class="hint-label">your current clue</p>' +
+      '<p class="hint-text">' + content.hintClue + '</p>' +
+      '<button class="hint-close">got it \u2713</button>';
+    document.body.appendChild(card);
+
+    // Show the toggle button with delay
+    setTimeout(function() {
+      btn.classList.add('visible');
+    }, 2000);
+
+    // Toggle handler
+    btn.addEventListener('click', function() { toggleHint(); });
+    backdrop.addEventListener('click', function() { closeHint(); });
+    card.querySelector('.hint-close').addEventListener('click', function() { closeHint(); });
+  }
+
+  function toggleHint() {
+    if (hintOpen) { closeHint(); } else { openHint(); }
+  }
+
+  function openHint() {
+    hintOpen = true;
+    var backdrop = document.getElementById('hint-backdrop');
+    var card = document.getElementById('hint-card');
+    if (backdrop) backdrop.classList.add('open');
+    if (card) card.classList.add('open');
+  }
+
+  function closeHint() {
+    hintOpen = false;
+    var backdrop = document.getElementById('hint-backdrop');
+    var card = document.getElementById('hint-card');
+    if (backdrop) backdrop.classList.remove('open');
+    if (card) card.classList.remove('open');
+  }
 
   // ── Initialize UI (sync, immediate) ──
   function initUI(stepId) {
@@ -43,6 +110,7 @@ var StepApp = (function() {
     Animations.pageEnter();
     Animations.initDecorations();
     Animations.initButtonInteractions();
+    createHintToggle();
   }
 
   // ── Connect to Firebase (async, delayed) ──

@@ -484,8 +484,97 @@ input { font-family:inherit; }
 .pin-error { font-size:0.8rem; color:var(--rose); margin-top:-12px; margin-bottom:12px; opacity:0; transition:opacity 0.3s; }
 .pin-error.visible { opacity:1; }
 
-/* ── Sparkle ── */
-.sparkle { position:absolute; width:6px; height:6px; background:var(--gold); border-radius:50%; opacity:0; }
+/* ── Hint Toggle Button ── */
+.hint-toggle {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--cream);
+  color: var(--brown);
+  border: 1.5px solid var(--tan);
+  box-shadow: var(--shadow-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  z-index: 100;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.3s var(--ease-smooth);
+  opacity: 0;
+  transform: scale(0.8);
+}
+.hint-toggle:hover { box-shadow:var(--shadow-lifted); transform:scale(1.05); border-color:var(--brown-muted); }
+.hint-toggle:active { transform:scale(0.95); }
+.hint-toggle.visible { opacity:1; transform:scale(1); }
+
+/* ── Hint Overlay ── */
+.hint-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(107,83,71,0.15);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease-smooth);
+}
+.hint-backdrop.open { opacity:1; pointer-events:all; }
+
+.hint-card {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--cream);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: 28px 24px 40px;
+  box-shadow: 0 -8px 40px rgba(139,111,92,0.15);
+  z-index: 201;
+  transform: translateY(100%);
+  transition: transform 0.4s var(--ease-bounce);
+  max-width: 480px;
+  margin: 0 auto;
+}
+.hint-card.open { transform:translateY(0); }
+.hint-card .hint-handle {
+  width: 36px; height: 4px;
+  border-radius: 2px;
+  background: var(--tan);
+  margin: 0 auto 20px;
+}
+.hint-card .hint-label {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.hint-card .hint-text {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: 1.15rem;
+  color: var(--brown-dark);
+  line-height: 1.5;
+  text-align: center;
+}
+.hint-card .hint-close {
+  margin-top: 20px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--brown-muted);
+  cursor: pointer;
+  border: none;
+  background: none;
+  text-align: center;
+  width: 100%;
+}
 
 /* ── Toast ── */
 .toast {
