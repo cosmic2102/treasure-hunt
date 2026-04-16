@@ -11,30 +11,30 @@ var StepApp = (function () {
 
   var stepContent = {
     step1: {
-      hintClue: '\u{1F4CD} [Your initial clue — where to go for Step 1]',
+      hintClue: '\u{1F4CD} go to the place where the day actually started you came all the way… still tired sir was there and somehow we ended up at Freezeland 😌',
       waitingText: 'hmm let me verify this \u{1F60C}',
-      clue: '\u270F\uFE0F [Your clue for Step 2 goes here]',
+      clue: '\u270F\uFE0F now go somewhere we sat for a while… you were trying to get your drawings right You got a little annoyed 😌 and later…I said what I should have earlier',
       successText: 'not bad\u2026 okay here\u2019s your next hint',
       nextPage: 'step2.html'
     },
     step2: {
-      hintClue: '\u{1F4CD} [Your clue for Step 2 goes here]',
+      hintClue: '\u{1F4CD} now go somewhere we sat for a while… you were trying to get your drawings right You got a little annoyed 😌 and later…I said what I should have earlier',
       waitingText: 'okay wait\u2026 checking \u{1F60C}',
-      clue: '\u270F\uFE0F [Your clue for Step 3 goes here]',
+      clue: '\u270F\uFE0F This is the place where you met someone who is as crazy as you, laughs hysterically at literally anything and loves you with her whole heart',
       successText: 'okay I see the effort',
       nextPage: 'step3.html'
     },
     step3: {
-      hintClue: '\u{1F4CD} [Your clue for Step 3 goes here]',
+      hintClue: '\u{1F4CD} This is the place where you met someone who is as crazy as you, laughs hysterically at literally anything and loves you with her whole heart',
       waitingText: 'one sec\u2026 verifying \u{1F914}',
-      clue: '\u270F\uFE0F [Your clue for Step 4 goes here]',
+      clue: '\u270F\uFE0F Here your heart felt alive again, Beats met your steps, A colorful place, Where you danced your heart out',
       successText: 'you\u2019re getting closer\u2026',
       nextPage: 'step4.html'
     },
     step4: {
-      hintClue: '\u{1F4CD} [Your clue for Step 4 goes here]',
+      hintClue: '\u{1F4CD} Here your heart felt alive again, Beats met your steps, A colorful place, Where you danced your heart out',
       waitingText: 'almost done checking\u2026',
-      clue: '\u270F\uFE0F [Your clue for the Final location goes here]',
+      clue: '\u270F\uFE0F “last one… go to the place that’s been there longer than us where I was annoyed (for no good reason 😌) and you were just sitting there… eating that day was supposed to be a little different”',
       successText: 'okay wow\u2026 you actually did it all',
       nextPage: 'final.html'
     }
